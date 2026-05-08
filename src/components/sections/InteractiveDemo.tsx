@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { User, Shield, Briefcase, BarChart3, ChevronRight, Globe, FileText, Settings, Database } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { SectionContainer } from '../ui/SectionContainer';
-import { FloatingPanel } from '../ui/FloatingPanel';
 
 interface ReceiverType {
   id: string;
   name: string;
-  icon: React.ElementType;
+  icon: LucideIcon;
   title: string;
   content: { label: string; value: string }[];
   color: string;
