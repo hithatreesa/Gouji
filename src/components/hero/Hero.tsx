@@ -45,14 +45,18 @@ const Hero: React.FC = () => {
               </p>
               
               <div className="flex flex-wrap gap-4">
-                <PrimaryButton className="flex items-center gap-2 group">
-                  Explore Platform
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </PrimaryButton>
-                <SecondaryButton className="flex items-center gap-2">
-                  <Play className="w-5 h-5" />
-                  Watch Demo
-                </SecondaryButton>
+                <a href="#platform">
+                  <PrimaryButton className="flex items-center gap-2 group">
+                    Explore Platform
+                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </PrimaryButton>
+                </a>
+                <a href="#pricing">
+                  <SecondaryButton className="flex items-center gap-2">
+                    <Play className="w-5 h-5" />
+                    View Plans
+                  </SecondaryButton>
+                </a>
               </div>
             </div>
           </motion.div>

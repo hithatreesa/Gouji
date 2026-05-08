@@ -77,13 +77,15 @@ const PricingSection: React.FC = () => {
               ))}
             </ul>
 
-            <button className={`w-full py-4 rounded-xl font-bold transition-all ${
-              plan.popular 
-                ? "bg-primary text-black hover:bg-white glow-primary" 
-                : "bg-white/5 text-white border border-white/10 hover:bg-white/10"
-            }`}>
-              {plan.cta}
-            </button>
+            <a href="#contact">
+              <button className={`w-full py-4 rounded-xl font-bold transition-all ${
+                plan.popular 
+                  ? "bg-primary text-black hover:bg-white glow-primary" 
+                  : "bg-white/5 text-white border border-white/10 hover:bg-white/10"
+              }`}>
+                {plan.cta}
+              </button>
+            </a>
           </motion.div>
         ))}
       </div>

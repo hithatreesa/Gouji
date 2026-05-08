@@ -6,7 +6,7 @@ import { SecondaryButton } from '../ui/SecondaryButton';
 
 const FinalCTASection: React.FC = () => {
   return (
-    <section className="py-40 relative overflow-hidden bg-[#0d0d0d]">
+    <section id="contact" className="py-40 relative overflow-hidden bg-[#0d0d0d]">
       {/* Background Mesh */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />

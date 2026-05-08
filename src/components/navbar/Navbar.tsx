@@ -48,13 +48,15 @@ const Navbar: React.FC = () => {
               {link.name}
             </motion.a>
           ))}
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="px-6 py-2 bg-white text-black rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-primary hover:text-white transition-colors"
-          >
-            Start
-          </motion.button>
+          <a href="#contact">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-6 py-2 bg-white text-black rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-primary hover:text-white transition-colors"
+            >
+              Start
+            </motion.button>
+          </a>
         </div>
 
         {/* Mobile Toggle */}
@@ -86,7 +88,9 @@ const Navbar: React.FC = () => {
                   {link.name}
                 </a>
               ))}
-              <PrimaryButton className="py-3 text-sm">Get Started</PrimaryButton>
+              <a href="#contact" onClick={() => setIsMobileMenuOpen(false)}>
+                <PrimaryButton className="py-3 text-sm w-full">Get Started</PrimaryButton>
+              </a>
             </div>
           </motion.div>
         )}
