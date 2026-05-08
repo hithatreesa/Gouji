@@ -80,20 +80,21 @@ const features: Feature[] = [
 
 const FeatureCard: React.FC<{ feature: Feature, index: number }> = ({ feature, index }) => {
   const Icon = feature.icon;
-  
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.1 }}
+      initial={{ opacity: 0, y: 40, filter: 'blur(10px)' }}
+      whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+      transition={{ duration: 1.2, delay: index * 0.15, ease: [0.16, 1, 0.3, 1] }}
       viewport={{ once: true }}
-      whileHover={{ y: -5 }}
+      whileHover={{ y: -10, scale: 1.02, transition: { duration: 0.3 } }}
+      // @ts-expect-error - React 19 typing conflict with framer-motion v11
       className={`relative group overflow-hidden glass-card p-8 min-h-[280px] flex flex-col justify-between hover:border-primary/50 transition-colors ${feature.className}`}
     >
       <div className={`absolute top-0 right-0 w-32 h-32 bg-linear-to-br opacity-0 group-hover:opacity-10 blur-3xl transition-opacity ${feature.color} to-transparent`} />
-      
+
       {feature.visual}
-      
+
       <div className="relative z-10">
         <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-6 bg-white/5 border border-white/10 group-hover:bg-primary group-hover:text-black transition-all`}>
           <Icon className="w-6 h-6" />
@@ -103,7 +104,7 @@ const FeatureCard: React.FC<{ feature: Feature, index: number }> = ({ feature, i
           {feature.description}
         </p>
       </div>
-      
+
       <div className="relative z-10 pt-6">
         <div className="flex items-center gap-2 text-xs font-bold text-primary opacity-0 group-hover:opacity-100 transition-opacity">
           LEARN MORE <div className="w-8 h-px bg-primary" />

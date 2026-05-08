@@ -117,10 +117,11 @@ const InteractiveDemo: React.FC = () => {
           <AnimatePresence mode="wait">
             <motion.div
               key={activeType.id}
-              initial={{ opacity: 0, scale: 0.95, x: 20 }}
-              animate={{ opacity: 1, scale: 1, x: 0 }}
-              exit={{ opacity: 0, scale: 0.95, x: -20 }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
+              initial={{ opacity: 0, scale: 0.9, y: 30, filter: 'blur(10px)' }}
+              animate={{ opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' }}
+              exit={{ opacity: 0, scale: 0.9, y: -30, filter: 'blur(10px)' }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              // @ts-expect-error - React 19 typing conflict
               className="bg-surface border border-white/10 rounded-[32px] p-2 shadow-2xl overflow-hidden"
             >
               <div className="bg-background rounded-[24px] overflow-hidden border border-white/5">
@@ -173,6 +174,7 @@ const InteractiveDemo: React.FC = () => {
                         initial={{ width: 0 }}
                         animate={{ width: '70%' }}
                         transition={{ duration: 1, delay: 0.2 }}
+                        // @ts-expect-error - React 19 typing conflict
                         className={`h-full bg-linear-to-r ${activeType.color} to-transparent`}
                       />
                     </div>
@@ -181,6 +183,7 @@ const InteractiveDemo: React.FC = () => {
                         initial={{ width: 0 }}
                         animate={{ width: '45%' }}
                         transition={{ duration: 1, delay: 0.4 }}
+                        // @ts-expect-error - React 19 typing conflict
                         className={`h-full bg-linear-to-r ${activeType.color} to-transparent`}
                       />
                     </div>

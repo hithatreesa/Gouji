@@ -29,6 +29,7 @@ const FinalCTASection: React.FC = () => {
               repeat: Infinity, 
               ease: "linear" 
             }}
+            // @ts-expect-error - React 19 typing conflict
             className="absolute w-1 h-1 bg-primary rounded-full blur-sm"
           />
         ))}
@@ -38,6 +39,7 @@ const FinalCTASection: React.FC = () => {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
+          // @ts-expect-error - React 19 typing conflict
           className="glass-card border-primary/20 p-12 md:p-24 relative overflow-hidden"
         >
           <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-transparent via-primary to-transparent" />

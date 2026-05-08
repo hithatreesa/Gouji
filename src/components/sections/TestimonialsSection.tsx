@@ -42,6 +42,7 @@ const TestimonialsSection: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.1 }}
             viewport={{ once: true }}
+            // @ts-expect-error - React 19 typing conflict
             className="p-8 glass-card border-white/5 relative group hover:border-primary/30 transition-all"
           >
             <Quote className="absolute top-6 right-6 w-10 h-10 text-primary/10 group-hover:text-primary/20 transition-colors" />

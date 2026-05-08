@@ -29,9 +29,10 @@ const Navbar: React.FC = () => {
         <motion.div 
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
+          // @ts-expect-error - React 19 typing conflict
           className="flex items-center gap-2"
         >
-          <span className="text-xl font-black tracking-tighter font-geometric uppercase italic text-white">+GOUJI®</span>
+          <span className="text-xl font-black tracking-tighter font-serif uppercase italic text-white">+GOUJI®</span>
         </motion.div>
 
         {/* Desktop Nav */}
@@ -39,6 +40,7 @@ const Navbar: React.FC = () => {
           {navLinks.map((link, i) => (
             <motion.a
               key={link.name}
+              // @ts-expect-error - React 19 typing conflict
               href={link.href}
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -52,6 +54,7 @@ const Navbar: React.FC = () => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              // @ts-expect-error - React 19 typing conflict
               className="px-6 py-2 bg-white text-black rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-primary hover:text-white transition-colors"
             >
               Start
@@ -75,6 +78,7 @@ const Navbar: React.FC = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
+            // @ts-expect-error - React 19 typing conflict
             className="md:hidden bg-surface border-b border-white/5 overflow-hidden"
           >
             <div className="p-6 flex flex-col gap-6">

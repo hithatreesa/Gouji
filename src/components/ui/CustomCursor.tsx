@@ -17,6 +17,7 @@ export const CustomCursor: React.FC = () => {
 
   return (
     <motion.div
+      // @ts-expect-error - React 19 typing conflict
       className="fixed top-0 left-0 w-32 h-32 bg-primary/20 rounded-full blur-[60px] pointer-events-none z-9999 mix-blend-screen"
       style={{
         x: cursorX,

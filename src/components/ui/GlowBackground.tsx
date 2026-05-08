@@ -13,6 +13,7 @@ export const GlowBackground: React.FC = () => {
           y: [0, -20, 0]
         }}
         transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+        // @ts-expect-error - React 19 typing conflict
         className="absolute top-1/4 -left-1/4 w-[800px] h-[600px] bg-primary/10 rounded-full blur-[160px]" 
       />
       <motion.div 
@@ -23,6 +24,7 @@ export const GlowBackground: React.FC = () => {
           y: [0, 30, 0]
         }}
         transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+        // @ts-expect-error - React 19 typing conflict
         className="absolute bottom-1/4 -right-1/4 w-[800px] h-[600px] bg-secondary/5 rounded-full blur-[160px]" 
       />
       

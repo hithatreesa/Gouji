@@ -38,8 +38,11 @@ const ArchitectureSection: React.FC = () => {
 
         {/* Node 1: Sender */}
         <motion.div 
-          initial={{ opacity: 0, x: -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, x: -60, filter: 'blur(5px)' }}
+          whileInView={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+          viewport={{ once: true }}
+          // @ts-expect-error - React 19 typing conflict
           className="z-10 flex flex-col items-center"
         >
           <div className="w-24 h-24 rounded-3xl bg-surface border border-white/10 flex items-center justify-center glow-primary mb-6">
@@ -53,8 +56,11 @@ const ArchitectureSection: React.FC = () => {
 
         {/* Node 2: Intelligence Layer */}
         <motion.div 
-          initial={{ opacity: 0, scale: 0.8 }}
-          whileInView={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, scale: 0.8, filter: 'blur(5px)' }}
+          whileInView={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+          transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+          viewport={{ once: true }}
+          // @ts-expect-error - React 19 typing conflict
           className="z-10 flex flex-col items-center"
         >
           <div className="relative">
@@ -73,8 +79,11 @@ const ArchitectureSection: React.FC = () => {
 
         {/* Node 3: Receiver */}
         <motion.div 
-          initial={{ opacity: 0, x: 50 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, x: 60, filter: 'blur(5px)' }}
+          whileInView={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}
+          viewport={{ once: true }}
+          // @ts-expect-error - React 19 typing conflict
           className="z-10 flex flex-col items-center"
         >
           <div className="w-24 h-24 rounded-3xl bg-surface border border-white/10 flex items-center justify-center glow-secondary mb-6">

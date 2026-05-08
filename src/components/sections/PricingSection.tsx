@@ -44,12 +44,13 @@ const PricingSection: React.FC = () => {
         {plans.map((plan, i) => (
           <motion.div
             key={i}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.1 }}
+            initial={{ opacity: 0, y: 50, filter: 'blur(10px)' }}
+            whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            transition={{ duration: 1.2, delay: i * 0.15, ease: [0.16, 1, 0.3, 1] }}
             viewport={{ once: true }}
-            className={`p-8 glass-card border-white/5 flex flex-col relative ${
-              plan.popular ? "border-primary/50 shadow-[0_0_40px_rgba(255,77,41,0.1)] scale-105 z-10" : ""
+            // @ts-expect-error - React 19 typing conflict
+            className={`p-8 glass-card border-white/5 flex flex-col relative transition-all duration-500 hover:y-[-10px] ${
+              plan.popular ? "border-primary/50 shadow-[0_0_40px_rgba(255,77,41,0.1)] scale-105 z-10" : "hover:border-white/20"
             }`}
           >
             {plan.popular && (

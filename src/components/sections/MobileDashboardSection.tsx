@@ -9,7 +9,7 @@ const MobileDashboardSection: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
         <div className="relative order-2 lg:order-1">
           {/* Mobile Mockup */}
-          <div className="relative mx-auto w-[300px] h-[600px] bg-[#0d0d0d] rounded-[3rem] border-[8px] border-white/10 shadow-2xl overflow-hidden p-4">
+          <div className="relative mx-auto w-[300px] h-[600px] bg-background rounded-[3rem] border-8 border-white/10 shadow-2xl overflow-hidden p-4">
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-white/10 rounded-b-3xl" />
             
             <div className="mt-12">
@@ -83,6 +83,7 @@ const MobileDashboardSection: React.FC = () => {
                 initial={{ opacity: 0, x: 20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ delay: i * 0.1 }}
+                // @ts-expect-error - React 19 typing conflict
                 className="flex items-start gap-4"
               >
                 <div className="mt-1 w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center text-primary shrink-0">

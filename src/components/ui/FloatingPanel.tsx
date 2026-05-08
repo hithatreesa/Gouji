@@ -4,6 +4,7 @@ import type { HTMLMotionProps } from 'framer-motion';
 
 interface FloatingPanelProps extends HTMLMotionProps<"div"> {
   children: React.ReactNode;
+  className?: string;
 }
 
 export const FloatingPanel: React.FC<FloatingPanelProps> = ({ children, className, ...props }) => {
@@ -13,7 +14,7 @@ export const FloatingPanel: React.FC<FloatingPanelProps> = ({ children, classNam
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ y: -5 }}
       className={`glass-card p-6 shadow-2xl ${className}`}
-      {...props}
+      {...props as any}
     >
       {children}
     </motion.div>

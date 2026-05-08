@@ -16,10 +16,11 @@ const TrustSection: React.FC = () => {
           {metrics.map((metric, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1 }}
+              initial={{ opacity: 0, y: 30, filter: 'blur(10px)' }}
+              whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              transition={{ duration: 1, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
               viewport={{ once: true }}
+              // @ts-expect-error - React 19 typing conflict
               className="text-center"
             >
               <div className="text-3xl md:text-5xl font-bold text-white mb-2 font-geometric">

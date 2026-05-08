@@ -43,6 +43,7 @@ const IndustriesSection: React.FC = () => {
                 rotateX: -5,
                 transition: { duration: 0.2 }
               }}
+              // @ts-expect-error - React 19 typing conflict
               className="group p-8 glass-card border-white/5 hover:bg-white/5 hover:border-primary/20 transition-all cursor-default perspective-1000"
             >
               <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center mb-8 group-hover:bg-primary group-hover:text-black transition-colors">
@@ -52,7 +53,7 @@ const IndustriesSection: React.FC = () => {
               <p className="text-text-secondary text-sm leading-relaxed">{ind.desc}</p>
               
               <div className="mt-8 flex items-center gap-2 text-xs font-bold text-text-secondary group-hover:text-primary transition-colors">
-                EXPLORE USE CASE <div className="w-0 group-hover:w-8 h-[1px] bg-primary transition-all duration-300" />
+                EXPLORE USE CASE <div className="w-0 group-hover:w-8 h-px bg-primary transition-all duration-300" />
               </div>
             </motion.div>
           );

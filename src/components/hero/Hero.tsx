@@ -28,14 +28,15 @@ const Hero: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           {/* Left Side */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-7"
+            initial={{ opacity: 0, x: -50, filter: 'blur(10px)' }}
+            animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+            transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+            // @ts-expect-error - React 19 typing conflict
+            className="lg:col-span-7 z-20"
           >
-            <h1 className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-[0.85] mb-10 text-white uppercase italic cinematic-reveal">
+            <h1 className="text-7xl md:text-8xl lg:text-[10rem] font-light tracking-tighter leading-[0.8] mb-10 text-white font-serif italic">
               Share <br />
-              <GradientText>Smarter.</GradientText> <br />
+              <GradientText className="not-italic font-black">Smarter.</GradientText> <br />
               <span className="text-white">Reveal Selectively.</span>
             </h1>
             
@@ -72,6 +73,7 @@ const Hero: React.FC = () => {
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
+            // @ts-expect-error - React 19 typing conflict
             className="text-left font-mono"
           >
             <div className="text-2xl text-white font-bold">{formatDate(time)}</div>
@@ -81,7 +83,8 @@ const Hero: React.FC = () => {
           <motion.div 
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-[12vw] font-black text-white/5 tracking-tighter leading-none select-none uppercase pointer-events-none"
+            // @ts-expect-error - React 19 typing conflict
+            className="text-[12vw] font-black text-white/5 tracking-tighter leading-none select-none uppercase pointer-events-none font-serif italic"
           >
             +GOUJI®
           </motion.div>

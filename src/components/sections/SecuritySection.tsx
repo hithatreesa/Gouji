@@ -43,6 +43,7 @@ const SecuritySection: React.FC = () => {
             <motion.div
               animate={{ rotate: 360 }}
               transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+              // @ts-expect-error - React 19 typing conflict
               className="absolute inset-0 border border-white/5 rounded-full"
             >
               <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-primary rounded-full shadow-[0_0_20px_rgba(255,77,41,0.5)]" />
@@ -51,6 +52,7 @@ const SecuritySection: React.FC = () => {
             <motion.div
               animate={{ rotate: -360 }}
               transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+              // @ts-expect-error - React 19 typing conflict
               className="absolute inset-[10%] border border-white/5 rounded-full"
             >
               <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-3 h-3 bg-secondary rounded-full shadow-[0_0_20px_rgba(249,115,22,0.5)]" />
@@ -64,6 +66,7 @@ const SecuritySection: React.FC = () => {
                     opacity: [0.3, 0.6, 0.3]
                   }}
                   transition={{ duration: 4, repeat: Infinity }}
+                  // @ts-expect-error - React 19 typing conflict
                   className="absolute inset-0 bg-primary/20"
                 />
                 <Lock className="w-20 h-20 text-white relative z-10" />
@@ -74,7 +77,7 @@ const SecuritySection: React.FC = () => {
             {[0, 60, 120, 180, 240, 300].map((deg) => (
               <div 
                 key={deg} 
-                className="absolute top-1/2 left-1/2 w-1/2 h-[1px] origin-left bg-gradient-to-r from-transparent via-white/10 to-transparent"
+                className="absolute top-1/2 left-1/2 w-1/2 h-px origin-left bg-linear-to-r from-transparent via-white/10 to-transparent"
                 style={{ transform: `rotate(${deg}deg)` }}
               />
             ))}
