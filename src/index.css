@@ -16,9 +16,9 @@
   --animate-pulse-slow: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   --animate-float: float 6s ease-in-out infinite;
 
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
+  @keyframes blurReveal {
+    from { filter: blur(20px); opacity: 0; transform: scale(1.1); }
+    to { filter: blur(0); opacity: 1; transform: scale(1); }
   }
 }
 
@@ -40,6 +40,27 @@
 
 @utility glow-secondary {
   box-shadow: 0 0 30px rgba(249, 115, 22, 0.2);
+}
+
+@utility cinematic-reveal {
+  animation: blurReveal 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@utility vignette {
+  background: radial-gradient(circle, transparent 20%, rgba(0,0,0,0.4) 100%);
+  pointer-events: none;
+}
+
+@utility film-grain {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.05;
+  pointer-events: none;
+  z-index: 9999;
+  background-image: url('https://grainy-gradients.vercel.app/noise.svg');
 }
 
 :root {

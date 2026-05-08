@@ -12,10 +12,14 @@ import MobileDashboardSection from './components/sections/MobileDashboardSection
 import SecuritySection from './components/sections/SecuritySection'
 import FinalCTASection from './components/sections/FinalCTASection'
 import { GlowBackground } from './components/ui/GlowBackground'
+import { CustomCursor } from './components/ui/CustomCursor'
 
 const App: React.FC = () => {
   return (
     <main className="relative min-h-screen">
+      <CustomCursor />
+      <div className="film-grain" />
+      <div className="vignette fixed inset-0 z-40 pointer-events-none" />
       <GlowBackground />
       <Navbar />
       <Hero />

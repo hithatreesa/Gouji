@@ -33,7 +33,7 @@ const Hero: React.FC = () => {
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
             className="lg:col-span-7"
           >
-            <h1 className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-[0.85] mb-10 text-white uppercase italic">
+            <h1 className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-[0.85] mb-10 text-white uppercase italic cinematic-reveal">
               Share <br />
               <GradientText>Smarter.</GradientText> <br />
               <span className="text-white">Reveal Selectively.</span>
