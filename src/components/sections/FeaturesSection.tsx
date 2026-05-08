@@ -90,7 +90,7 @@ const FeatureCard: React.FC<{ feature: Feature, index: number }> = ({ feature, i
       whileHover={{ y: -5 }}
       className={`relative group overflow-hidden glass-card p-8 min-h-[280px] flex flex-col justify-between hover:border-primary/50 transition-colors ${feature.className}`}
     >
-      <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br opacity-0 group-hover:opacity-10 blur-3xl transition-opacity ${feature.color} to-transparent`} />
+      <div className={`absolute top-0 right-0 w-32 h-32 bg-linear-to-br opacity-0 group-hover:opacity-10 blur-3xl transition-opacity ${feature.color} to-transparent`} />
       
       {feature.visual}
       
@@ -106,7 +106,7 @@ const FeatureCard: React.FC<{ feature: Feature, index: number }> = ({ feature, i
       
       <div className="relative z-10 pt-6">
         <div className="flex items-center gap-2 text-xs font-bold text-primary opacity-0 group-hover:opacity-100 transition-opacity">
-          LEARN MORE <div className="w-8 h-[1px] bg-primary" />
+          LEARN MORE <div className="w-8 h-px bg-primary" />
         </div>
       </div>
     </motion.div>

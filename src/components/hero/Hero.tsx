@@ -23,7 +23,7 @@ const Hero: React.FC = () => {
   };
 
   return (
-    <section className="relative min-h-screen flex flex-col justify-center pt-20 overflow-hidden bg-[#0d0d0d]">
+    <section id="hero" className="relative min-h-screen flex flex-col justify-center pt-20 overflow-hidden bg-background">
       <div className="max-w-7xl mx-auto px-6 w-full relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           {/* Left Side */}

@@ -123,11 +123,11 @@ const InteractiveDemo: React.FC = () => {
               transition={{ duration: 0.4, ease: "easeOut" }}
               className="bg-surface border border-white/10 rounded-[32px] p-2 shadow-2xl overflow-hidden"
             >
-              <div className="bg-[#0d0d0d] rounded-[24px] overflow-hidden border border-white/5">
+              <div className="bg-background rounded-[24px] overflow-hidden border border-white/5">
                 {/* Device Header */}
                 <div className="p-6 border-b border-white/5 flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary p-[2px]">
+                    <div className="w-10 h-10 rounded-full bg-linear-to-br from-primary to-secondary p-[2px]">
                       <div className="w-full h-full rounded-full bg-surface flex items-center justify-center">
                         <User className="w-5 h-5 text-white" />
                       </div>
@@ -144,7 +144,7 @@ const InteractiveDemo: React.FC = () => {
                 </div>
 
                 {/* Profile Banner */}
-                <div className={`h-32 bg-gradient-to-r ${activeType.color} to-transparent opacity-20`} />
+                <div className={`h-32 bg-linear-to-r ${activeType.color} to-transparent opacity-20`} />
                 
                 {/* Content Area */}
                 <div className="p-8 -mt-16">
@@ -173,7 +173,7 @@ const InteractiveDemo: React.FC = () => {
                         initial={{ width: 0 }}
                         animate={{ width: '70%' }}
                         transition={{ duration: 1, delay: 0.2 }}
-                        className={`h-full bg-gradient-to-r ${activeType.color} to-transparent`}
+                        className={`h-full bg-linear-to-r ${activeType.color} to-transparent`}
                       />
                     </div>
                     <div className="h-2 w-3/4 bg-white/5 rounded-full overflow-hidden">
@@ -181,7 +181,7 @@ const InteractiveDemo: React.FC = () => {
                         initial={{ width: 0 }}
                         animate={{ width: '45%' }}
                         transition={{ duration: 1, delay: 0.4 }}
-                        className={`h-full bg-gradient-to-r ${activeType.color} to-transparent`}
+                        className={`h-full bg-linear-to-r ${activeType.color} to-transparent`}
                       />
                     </div>
                   </div>
@@ -196,7 +196,7 @@ const InteractiveDemo: React.FC = () => {
                       </div>
                     </div>
                     <a href="#contact">
-                      <button className={`px-6 py-2 rounded-xl text-xs font-bold text-white transition-all bg-gradient-to-r ${activeType.color} to-primary/50`}>
+                      <button className={`px-6 py-2 rounded-xl text-xs font-bold text-white transition-all bg-linear-to-r ${activeType.color} to-primary/50`}>
                         Request Access
                       </button>
                     </a>

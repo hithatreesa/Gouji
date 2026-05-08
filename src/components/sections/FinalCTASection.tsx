@@ -6,7 +6,7 @@ import { SecondaryButton } from '../ui/SecondaryButton';
 
 const FinalCTASection: React.FC = () => {
   return (
-    <section id="contact" className="py-40 relative overflow-hidden bg-[#0d0d0d]">
+    <section id="contact" className="py-40 relative overflow-hidden bg-background">
       {/* Background Mesh */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />
@@ -40,7 +40,7 @@ const FinalCTASection: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           className="glass-card border-primary/20 p-12 md:p-24 relative overflow-hidden"
         >
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent" />
+          <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-transparent via-primary to-transparent" />
           
           <h2 className="text-4xl md:text-7xl font-bold mb-8 font-geometric text-white uppercase italic tracking-tighter">Build the future of <br /><span className="text-primary italic">adaptive identity.</span></h2>
           <p className="text-text-secondary text-xl mb-12 max-w-xl mx-auto leading-relaxed">
