@@ -19,12 +19,10 @@
   --animate-float: float 6s ease-in-out infinite;
 
   @keyframes float {
-
     0%,
     100% {
       transform: translateY(0);
     }
-
     50% {
       transform: translateY(-20px);
     }
@@ -83,33 +81,6 @@
   pointer-events: none;
   z-index: 9999;
   background-image: url('https://grainy-gradients.vercel.app/noise.svg');
-}
-
-:root {
-  color-scheme: dark;
-  scroll-behavior: smooth;
-}
-
-body {
-  @apply bg-background text-text-primary antialiased;
-  margin: 0;
-  font-family: var(--font-sans);
-  overflow-x: hidden;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--font-geometric);
-}
-
-opacity: 0.05;
-pointer-events: none;
-z-index: 9999;
-background-image: url('https://grainy-gradients.vercel.app/noise.svg');
 }
 
 :root {

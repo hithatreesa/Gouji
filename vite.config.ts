@@ -8,11 +8,6 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
-  resolve: {
-    alias: {
-      'framer-motion': 'framer-motion/dist/framer-motion'
-    }
-  },
   build: {
     target: 'esnext'
   }
