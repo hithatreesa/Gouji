@@ -68,52 +68,6 @@ const FinalCTASection = () => {
         </motion.div>
       </div>
 
-      <footer className="mt-40 border-t border-white/5 pt-20 pb-10">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-20">
-            <div className="col-span-1 md:col-span-1">
-              <div className="flex items-center gap-2 mb-6 text-white font-black italic tracking-tighter uppercase text-2xl">
-                +GOUJI®
-              </div>
-              <p className="text-text-secondary text-sm mb-6 max-w-xs font-medium">
-                The world's first adaptive identity and contextual data-sharing platform. Built for the future of enterprise interaction.
-              </p>
-              <div className="flex gap-4">
-                <MessageSquare className="w-5 h-5 text-text-secondary hover:text-white cursor-pointer transition-colors" />
-                <Code className="w-5 h-5 text-text-secondary hover:text-white cursor-pointer transition-colors" />
-                <Users className="w-5 h-5 text-text-secondary hover:text-white cursor-pointer transition-colors" />
-                <Mail className="w-5 h-5 text-text-secondary hover:text-white cursor-pointer transition-colors" />
-              </div>
-            </div>
-
-            {[
-              { title: 'Platform', links: ['Features', 'Intelligence', 'Security', 'Enterprise'] },
-              { title: 'Company', links: ['About Us', 'Careers', 'Blog', 'Connect'] },
-              { title: 'Resources', links: ['Documentation', 'API Reference', 'Status', 'Legal'] },
-            ].map((col, i) => (
-              <div key={i}>
-                <h4 className="font-bold text-white mb-6 uppercase tracking-widest text-[10px]">{col.title}</h4>
-                <ul className="space-y-4">
-                  {col.links.map((link) => (
-                    <li key={link}>
-                      <a href="#" className="text-text-secondary text-xs font-medium hover:text-primary transition-colors">{link}</a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-          
-          <div className="flex flex-col md:flex-row justify-between items-center pt-10 border-t border-white/5 text-[10px] text-text-secondary uppercase tracking-widest font-bold">
-            <div>© 2026 GOUJI INFRASTRUCTURE INC. ALL RIGHTS RESERVED.</div>
-            <div className="flex gap-8 mt-4 md:mt-0">
-              <a href="#" className="hover:text-white">Privacy Policy</a>
-              <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
-              <a href="#" className="hover:text-white transition-colors">Cookie Policy</a>
-            </div>
-          </div>
-        </div>
-      </footer>
     </section>
   );
 };
