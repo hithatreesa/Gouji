@@ -11,7 +11,7 @@ const MobileDashboardSection: React.FC = () => {
           {/* Mobile Mockup */}
           <div className="relative mx-auto w-[300px] h-[600px] bg-background rounded-[3rem] border-8 border-white/10 shadow-2xl overflow-hidden p-4">
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-white/10 rounded-b-3xl" />
-            
+
             <div className="mt-12">
               <div className="flex items-center justify-between mb-8">
                 <h4 className="text-xl font-bold text-white uppercase italic tracking-tighter">+GOUJI®</h4>
@@ -60,7 +60,7 @@ const MobileDashboardSection: React.FC = () => {
               </div>
             </div>
           </div>
-          
+
           {/* Decorative Elements */}
           <div className="absolute -top-10 -right-10 w-40 h-40 bg-primary/20 blur-[80px] -z-10" />
           <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-secondary/10 blur-[80px] -z-10" />
@@ -71,14 +71,14 @@ const MobileDashboardSection: React.FC = () => {
           <p className="text-text-secondary text-lg mb-10 leading-relaxed">
             Manage your entire identity ecosystem on the go. Switch modes, revoke access, and track analytics from a single, intuitive dashboard.
           </p>
-          
+
           <ul className="space-y-6">
             {[
               { t: 'Instant Revocation', d: 'Immediately stop data sharing for any specific receiver.' },
               { t: 'Live Sync', d: 'Your physical NFC triggers update in real-time.' },
               { t: 'Biometric Security', d: 'Secure your most sensitive data with FaceID or TouchID.' }
             ].map((item, i) => (
-              <motion.li 
+              <motion.li
                 key={i}
                 initial={{ opacity: 0, x: 20 }}
                 whileInView={{ opacity: 1, x: 0 }}

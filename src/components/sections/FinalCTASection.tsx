@@ -55,7 +55,7 @@ const FinalCTASection: React.FC = () => {
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </PrimaryButton>
             <SecondaryButton>
-              Contact Sales
+              Let's Connect
             </SecondaryButton>
           </div>
         </motion.div>
@@ -81,7 +81,7 @@ const FinalCTASection: React.FC = () => {
 
             {[
               { title: 'Platform', links: ['Features', 'Intelligence', 'Security', 'Enterprise'] },
-              { title: 'Company', links: ['About Us', 'Careers', 'Blog', 'Contact'] },
+              { title: 'Company', links: ['About Us', 'Careers', 'Blog', 'Connect'] },
               { title: 'Resources', links: ['Documentation', 'API Reference', 'Status', 'Legal'] },
             ].map((col, i) => (
               <div key={i}>
