@@ -16,7 +16,7 @@ const AtmosphericMist = () => {
           repeat: Infinity,
           ease: "linear",
         }}
-        className="absolute inset-[-10%] bg-radial-to-br from-primary/5 via-transparent to-transparent blur-[40px] opacity-20"
+        className="absolute inset-[-10%] bg-radial-to-br from-primary/5 via-transparent to-transparent blur-2xl opacity-20"
       />
 
       {/* Slow Moving Mist Layer 2 */}
@@ -31,7 +31,7 @@ const AtmosphericMist = () => {
           repeat: Infinity,
           ease: "linear",
         }}
-        className="absolute inset-[-20%] bg-radial-to-tl from-white/5 via-transparent to-transparent blur-[60px] opacity-15"
+        className="absolute inset-[-20%] bg-radial-to-tl from-white/5 via-transparent to-transparent blur-3xl opacity-15"
       />
 
       {/* Vignette Overlay to ground the UI */}
