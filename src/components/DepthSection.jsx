@@ -13,32 +13,29 @@ const DepthSection = ({ children, index = 0 }) => {
   });
 
   // Add a very slight spring so the 3D movement feels organic and floaty
-  const smoothProgress = useSpring(scrollYProgress, { stiffness: 40, damping: 20, mass: 0.5 });
+  // Add a slightly tighter spring for the new scroll speed
+  const smoothProgress = useSpring(scrollYProgress, { stiffness: 60, damping: 25, mass: 0.8 });
 
   // Map the scroll progress to a 3D Z-axis movement
-  // When it enters (0), it's far back (-2000px).
-  // When it's in the middle (0.4 to 0.6), it's at normal scale (0px).
-  // When it leaves (1), it flies past the camera (1000px).
-  // We use the index to slightly offset the entrance so it feels staggered
+  // Optimized for a seamless 100vh-to-100vh flow
   const z = useTransform(
     smoothProgress, 
     [0, 0.4, 0.6, 1], 
-    [-1500 - (index * 200), 0, 0, 1500]
+    [-4000, 0, 0, 4000]
   );
   
   // Add a slight tilt/rotation as it flies past for more cinematic feel
-  // It tilts up as it comes from below, flattens out, and tilts down as it flies over your head
   const rotateX = useTransform(smoothProgress, [0, 0.4, 0.6, 1], [25, 0, 0, -25]);
   
-  // Fade in from the deep fog, stay solid in the middle, and fade out as it flies past the camera
-  const opacity = useTransform(smoothProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+  // Fade in from the deep fog (Fully visible for the central 20% of the scroll)
+  const opacity = useTransform(smoothProgress, [0, 0.2, 0.4, 0.6, 0.8, 1], [0, 0, 1, 1, 0, 0]);
   
-  // Add blur for depth of field (blurred in the distance, sharp in the middle, blurred as it flies past)
-  const blurValue = useTransform(smoothProgress, [0, 0.3, 0.7, 1], [15, 0, 0, 20]);
+  // Extreme blur for depth of field (sharp for the majority of the view)
+  const blurValue = useTransform(smoothProgress, [0, 0.4, 0.6, 1], [20, 0, 0, 25]);
   const filter = useTransform(blurValue, (v) => `blur(${v}px)`);
 
   return (
-    <div ref={ref} className="relative w-full" style={{ perspective: '2000px' }}>
+    <div ref={ref} className="relative w-full" style={{ perspective: '3000px' }}>
       <motion.div
         style={{
           z,

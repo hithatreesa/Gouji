@@ -1,92 +1,202 @@
-import React, { useRef } from 'react';
-import { motion, useScroll, useAnimationFrame, useSpring, useTransform } from 'framer-motion';
-import { useTheme } from '../context/ThemeContext';
+import React, { useRef, useMemo } from 'react';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import * as THREE from 'three';
+import { useScroll } from 'framer-motion';
+import { useAtmosphere } from '../context/ThemeContext';
 
-const GlobalCloudBackground = () => {
-  const { theme } = useTheme();
-  const { scrollY, scrollYProgress } = useScroll();
+const RaymarchCloudShader = {
+  uniforms: {
+    uTime: { value: 0 },
+    uMouse: { value: new THREE.Vector2(0, 0) },
+    uScroll: { value: 0 },
+    uPhase: { value: 0 }, // 0: day, 1: dawn, 2: dusk, 3: night
+    uResolution: { value: new THREE.Vector2(0, 0) },
+  },
+  vertexShader: `
+    varying vec2 vUv;
+    void main() {
+      vUv = uv;
+      gl_Position = vec4(position, 1.0);
+    }
+  `,
+  fragmentShader: `
+    uniform float uTime;
+    uniform vec2 uMouse;
+    uniform float uScroll;
+    uniform float uPhase;
+    uniform vec2 uResolution;
+    varying vec2 vUv;
 
-  // Ultra-smooth cinematic spring
-  const smoothScrollY = useSpring(scrollY, { stiffness: 10, damping: 40, mass: 2.5 });
-  
-  // Scale the background clouds as you scroll to simulate flying forward into the depth
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 2.5]);
+    // --- Noise & Math ---
+    float hash(vec3 p) {
+      p = fract(p * vec3(123.34, 456.21, 789.18));
+      p += dot(p, p.yzx + 45.32);
+      return fract((p.x + p.y) * p.z);
+    }
 
-  const cloudRef1 = useRef(null);
-  const cloudRef2 = useRef(null);
+    float noise(vec3 p) {
+      vec3 i = floor(p);
+      vec3 f = fract(p);
+      f = f * f * (3.0 - 2.0 * f);
+      return mix(mix(mix(hash(i + vec3(0,0,0)), hash(i + vec3(1,0,0)), f.x),
+                     mix(hash(i + vec3(0,1,0)), hash(i + vec3(1,1,0)), f.x), f.y),
+                 mix(mix(hash(i + vec3(0,0,1)), hash(i + vec3(1,0,1)), f.x),
+                     mix(hash(i + vec3(0,1,1)), hash(i + vec3(1,1,1)), f.x), f.y), f.z);
+    }
 
-  useAnimationFrame((t) => {
-    if (!cloudRef1.current || !cloudRef2.current) return;
+    float fbm(vec3 p) {
+      float v = 0.0;
+      float a = 0.5;
+      for (int i = 0; i < 4; i++) {
+        v += a * noise(p);
+        p *= 2.1;
+        a *= 0.5;
+      }
+      return v;
+    }
 
-    const drift1 = (t / 150000) * 2000;
-    const drift2 = (t / 180000) * 2000;
+    // --- Raymarching Engine ---
+    float cloudDensity(vec3 p) {
+      // Mouse Parting
+      vec3 mouseWorld = vec3(uMouse * 10.0, 0.0);
+      float dMouse = length(p.xy - mouseWorld.xy);
+      float clearing = smoothstep(0.0, 5.0, dMouse);
 
-    const scrollContrib1 = smoothScrollY.get() * -0.15;
-    const scrollContrib2 = smoothScrollY.get() * -0.08;
+      float d = fbm(p * 0.4 + vec3(uTime * 0.1, 0.0, uScroll * 2.0));
+      d = smoothstep(0.4, 0.9, d * clearing);
+      
+      // Ground/Sky limits
+      d *= smoothstep(-5.0, -2.0, p.y) * smoothstep(5.0, 2.0, p.y);
+      return d;
+    }
 
-    cloudRef1.current.style.backgroundPositionY = `${drift1 + scrollContrib1}px`;
-    cloudRef2.current.style.backgroundPositionY = `${1000 + drift2 + scrollContrib2}px`;
+    vec4 raymarch(vec3 ro, vec3 rd, vec3 sunDir, vec3 skyColor, vec3 cloudColor) {
+      float sum = 0.0;
+      vec3 col = vec3(0.0);
+      float t = 0.0;
+      
+      for(int i=0; i<28; i++) {
+        vec3 p = ro + t * rd;
+        float d = cloudDensity(p);
+        
+        if (d > 0.01) {
+          // Beer's Law for internal shadows (simplified)
+          float ld = cloudDensity(p + sunDir * 0.4);
+          float shadow = exp(-ld * 1.5);
+          
+          vec3 light = cloudColor * shadow * 1.5;
+          // Forward scattering
+          float cosTheta = dot(rd, sunDir);
+          light += pow(max(0.0, cosTheta), 8.0) * 0.4;
+          
+          float alpha = (1.0 - sum) * d;
+          col += light * alpha;
+          sum += alpha;
+          
+          if (sum > 0.99) break;
+        }
+        t += max(0.12, t * 0.06);
+      }
+      
+      return vec4(col, sum);
+    }
+
+    void main() {
+      vec2 uv = (gl_FragCoord.xy * 2.0 - uResolution.xy) / uResolution.y;
+      
+      vec3 ro = vec3(0.0, 0.0, 10.0);
+      vec3 rd = normalize(vec3(uv, -1.5));
+      
+      // Environment Config
+      vec3 skyTop, skyBot, cloudCol, sunDir;
+      sunDir = normalize(vec3(-1.0, 0.8, -0.5));
+
+      if (uPhase < 0.5) { // DAY
+        skyTop = vec3(0.05, 0.3, 0.7);
+        skyBot = vec3(0.5, 0.7, 0.9);
+        cloudCol = vec3(1.0, 1.0, 1.0);
+      } else if (uPhase < 1.5) { // DAWN
+        skyTop = vec3(0.1, 0.2, 0.4);
+        skyBot = vec3(1.0, 0.6, 0.4);
+        cloudCol = vec3(1.0, 0.9, 0.7);
+      } else if (uPhase < 2.5) { // DUSK
+        skyTop = vec3(0.05, 0.05, 0.2);
+        skyBot = vec3(0.5, 0.2, 0.6);
+        cloudCol = vec3(0.8, 0.6, 0.7);
+      } else { // NIGHT
+        skyTop = vec3(0.0, 0.01, 0.05);
+        skyBot = vec3(0.02, 0.05, 0.1);
+        cloudCol = vec3(0.5, 0.5, 0.7);
+      }
+
+      vec3 bg = mix(skyBot, skyTop, vUv.y);
+      vec4 res = raymarch(ro, rd, sunDir, bg, cloudCol);
+      
+      vec3 final = mix(bg, res.rgb, res.a);
+      
+      // Sun
+      float sun = pow(max(0.0, dot(rd, sunDir)), 100.0);
+      final += vec3(1.0, 0.9, 0.7) * sun * 0.8;
+
+      gl_FragColor = vec4(final, 1.0);
+    }
+  `,
+};
+
+const AtmosphericCore = () => {
+  const meshRef = useRef();
+  const { mouse, size } = useThree();
+  const { scrollYProgress } = useScroll();
+  const { atmosphere } = useAtmosphere();
+
+  const phaseValue = useMemo(() => {
+    switch(atmosphere.phase) {
+      case 'dawn': return 1.0;
+      case 'dusk': return 2.0;
+      case 'night': return 3.0;
+      default: return 0.0;
+    }
+  }, [atmosphere.phase]);
+
+  useFrame((state) => {
+    if (meshRef.current) {
+      meshRef.current.material.uniforms.uTime.value = state.clock.getElapsedTime();
+      meshRef.current.material.uniforms.uMouse.value.lerp(mouse, 0.05);
+      meshRef.current.material.uniforms.uScroll.value = THREE.MathUtils.lerp(
+        meshRef.current.material.uniforms.uScroll.value,
+        scrollYProgress.get(),
+        0.1
+      );
+      meshRef.current.material.uniforms.uPhase.value = phaseValue;
+      meshRef.current.material.uniforms.uResolution.value.set(size.width, size.height);
+    }
   });
 
   return (
-    <div
-      className={`fixed inset-0 z-0 pointer-events-none transition-colors duration-1000 ${theme === 'dark' ? 'bg-[#0B0E14]' : 'bg-[#F0F4F8]'
-        }`}
-    >
-      <motion.div style={{ scale }} className="absolute inset-0 w-full h-full origin-center">
-        {/* Infinite tiling cloud layer — background-repeat does the infinite work */}
-        <div
-          ref={cloudRef1}
-          className={`absolute inset-0 transition-opacity duration-1000 ${theme === 'dark'
-              ? "opacity-40 mix-blend-screen"
-              : "opacity-60"
-            }`}
-          style={{
-            backgroundImage: theme === 'dark'
-              ? "url('/src/assets/cloud-dark.png')"
-              : "url('/src/assets/cloud-light.png')",
-            backgroundRepeat: 'repeat',
-            backgroundSize: 'cover',
-            backgroundPositionX: 'center',
-            backgroundPositionY: '0px',
-          }}
-        />
+    <mesh ref={meshRef}>
+      <planeGeometry args={[2, 2]} />
+      <shaderMaterial 
+        {...RaymarchCloudShader} 
+        depthTest={false} 
+        depthWrite={false}
+      />
+    </mesh>
+  );
+};
 
-        {/* Mirrored second layer offset by half — breaks up the repeat pattern */}
-        <div
-          ref={cloudRef2}
-          className={`absolute inset-0 transition-opacity duration-1000 ${theme === 'dark'
-              ? "opacity-20 mix-blend-screen"
-              : "opacity-30"
-            }`}
-          style={{
-            backgroundImage: theme === 'dark'
-              ? "url('/src/assets/cloud-dark.png')"
-              : "url('/src/assets/cloud-light.png')",
-            backgroundRepeat: 'repeat',
-            backgroundSize: 'cover',
-            backgroundPositionX: 'center',
-            backgroundPositionY: '1000px', // offset so layers don't align perfectly
-            transform: 'scaleX(-1)', // horizontally flipped for variation
-          }}
-        />
-      </motion.div>
-
-      {/* Atmospheric Haze */}
-      <div className="absolute inset-0 z-10 pointer-events-none">
-        <div className={`absolute top-0 left-1/2 -translate-x-1/2 w-[150%] h-full transition-all duration-1000 ${theme === 'dark'
-            ? 'bg-[radial-gradient(circle_at_50%_20%,rgba(255,77,41,0.08)_0%,transparent_60%)]'
-            : 'bg-[radial-gradient(circle_at_50%_0%,rgba(0,102,255,0.15)_0%,transparent_70%)]'
-          }`} />
-        <div className={`absolute inset-0 backdrop-blur-[0.5px] ${theme === 'dark' ? 'bg-[#0B0E14]/20' : 'bg-white/5'
-          }`} />
-      </div>
-
-      {/* Vignette */}
-      <div className={`absolute inset-0 z-20 pointer-events-none transition-all duration-1000 ${theme === 'dark'
-          ? 'bg-[radial-gradient(circle_at_50%_50%,transparent_0%,rgba(11,14,20,0.5)_100%)]'
-          : 'bg-[radial-gradient(circle_at_50%_50%,transparent_0%,rgba(255,255,255,0.2)_100%)]'
-        }`} />
+const GlobalCloudBackground = () => {
+  return (
+    <div className="fixed inset-0 z-0 pointer-events-none">
+      <Canvas 
+        gl={{ 
+          antialias: false,
+          powerPreference: "high-performance",
+          alpha: true
+        }}
+        dpr={[1, 1.5]} // Cap pixel ratio for performance
+      >
+        <AtmosphericCore />
+      </Canvas>
     </div>
   );
 };

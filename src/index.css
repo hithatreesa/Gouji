@@ -1,5 +1,27 @@
 @import "tailwindcss";
 
+/* Lenis Smooth Scroll Setup */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
 
 @theme {
@@ -31,25 +53,69 @@
 }
 
 :root {
+  /* Default Day Atmosphere (10AM - 5PM) */
+  --bg-color: #4ba3f8;
+  --surface-color: rgba(255, 255, 255, 0.8);
+  --text-color: #0F172A;
+  --text-secondary-color: #334155;
+  --border-color: rgba(255, 255, 255, 0.2);
+  --primary-color: #0066FF;
+  --secondary-color: #0EA5E9;
+  --atmo-fog: rgba(255, 255, 255, 0.4);
+  --atmo-glow: rgba(0, 102, 255, 0.1);
+  color-scheme: light;
+}
+
+.atmosphere-dawn {
+  --bg-color: #4b9ce7;
+  --surface-color: #dddfe0;
+  --text-color: #2D1B15;
+  --text-secondary-color: #8C6A5E;
+  --border-color: rgba(255, 77, 41, 0.1);
+  --primary-color: #FF4D29;
+  --secondary-color: #F97316;
+  --atmo-fog: rgba(255, 219, 204, 0.5);
+  --atmo-glow: rgba(255, 77, 41, 0.15);
+  color-scheme: light;
+}
+
+.atmosphere-day {
+  --bg-color: #4ba3f8;
+  --surface-color: rgba(255, 255, 255, 0.9);
+  --text-color: #0F172A;
+  --text-secondary-color: #334155;
+  --border-color: rgba(0, 102, 255, 0.1);
+  --primary-color: #0066FF;
+  --secondary-color: #0EA5E9;
+  --atmo-fog: rgba(255, 255, 255, 0.4);
+  --atmo-glow: rgba(0, 102, 255, 0.1);
+  color-scheme: light;
+}
+
+.atmosphere-dusk {
+  --bg-color: #1A1221;
+  --surface-color: #251B2E;
+  --text-color: hsl(210, 95%, 59%);
+  --text-secondary-color: #94A3B8;
+  --border-color: rgba(249, 115, 22, 0.2);
+  --primary-color: #F97316;
+  --secondary-color: #8B5CF6;
+  --atmo-fog: rgba(249, 115, 22, 0.15);
+  --atmo-glow: rgba(249, 115, 22, 0.3);
+  color-scheme: dark;
+}
+
+.atmosphere-night {
   --bg-color: #0B0E14;
   --surface-color: #11151C;
-  --text-color: #CBD5E1; /* Darkened slightly from #F8FAFC so fog can visibly brighten it */
+  --text-color: #F8FAFC;
   --text-secondary-color: #94A3B8;
   --border-color: rgba(255, 77, 41, 0.1);
   --primary-color: #FF4D29;
   --secondary-color: #F97316;
+  --atmo-fog: rgba(11, 14, 20, 0.8);
+  --atmo-glow: rgba(255, 77, 41, 0.2);
   color-scheme: dark;
-}
-
-.light {
-  --bg-color: #F8F9FA;
-  --surface-color: #FFFFFF;
-  --text-color: #0F172A;
-  --text-secondary-color: #64748B;
-  --border-color: rgba(0, 102, 255, 0.08);
-  --primary-color: #0066FF;
-  --secondary-color: #3B82F6;
-  color-scheme: light;
 }
 
 /* Fallbacks for camelCase used in components */
@@ -63,6 +129,7 @@ body {
   margin: 0;
   font-family: 'Inter', sans-serif;
   overflow-x: hidden;
+  overscroll-behavior: none;
 }
 
 h1,
@@ -75,11 +142,11 @@ h6 {
 }
 
 .glass {
-  @apply bg-surface/40 backdrop-blur-xl border border-border-custom;
+  @apply bg-surface/60 backdrop-blur-3xl border border-border-custom;
 }
 
 .glass-card {
-  @apply bg-text-primary/5 backdrop-blur-md border border-border-custom rounded-2xl;
+  @apply bg-white/10 backdrop-blur-2xl border border-white/20 rounded-2xl shadow-xl shadow-black/10;
 }
 
 .text-gradient {

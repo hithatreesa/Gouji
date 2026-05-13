@@ -1,30 +1,44 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, useMemo } from 'react';
 
-const ThemeContext = createContext();
+const AtmosphereContext = createContext();
 
-export const ThemeProvider = ({ children }) => {
-  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark');
+export const AtmosphereProvider = ({ children }) => {
+  const [atmosphere] = useState({
+    phase: 'day',
+    intensity: 1,
+    hour: 12,
+    isOverride: false
+  });
+
+  // Locked to day, setOverride is now a no-op
+  const setOverride = () => { };
+
+  const value = useMemo(() => ({
+    atmosphere,
+    setOverride
+  }), [atmosphere]);
 
   useEffect(() => {
     const root = window.document.documentElement;
-    root.classList.remove('light', 'dark');
-    root.classList.add(theme);
-    localStorage.setItem('theme', theme);
-  }, [theme]);
-
-  const toggleTheme = () => {
-    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
-  };
+    root.classList.remove('atmosphere-dawn', 'atmosphere-dusk', 'atmosphere-night');
+    root.classList.add('atmosphere-day');
+  }, []);
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <AtmosphereContext.Provider value={value}>
       {children}
-    </ThemeContext.Provider>
+    </AtmosphereContext.Provider>
   );
 };
 
-export const useTheme = () => {
-  const context = useContext(ThemeContext);
-  if (!context) throw new Error('useTheme must be used within a ThemeProvider');
+export const useAtmosphere = () => {
+  const context = useContext(AtmosphereContext);
+  if (!context) throw new Error('useAtmosphere must be used within an AtmosphereProvider');
   return context;
+};
+
+// Keep compatibility with old useTheme imports to avoid immediate breaking
+export const useTheme = () => {
+  const { atmosphere } = useAtmosphere();
+  return { theme: (atmosphere.phase === 'day' || atmosphere.phase === 'dawn') ? 'light' : 'dark', atmosphere };
 };
