@@ -4,16 +4,17 @@ import { ArrowRight, Code, MessageSquare, Users, Mail } from 'lucide-react';
 import { PrimaryButton } from './ui/PrimaryButton';
 import { SecondaryButton } from './ui/SecondaryButton';
 
+// Pre-calculate particles outside to maintain React 19 purity
+const staticParticles = [...Array(20)].map(() => ({
+  x: Math.random() * 100 + "%",
+  y: Math.random() * 100 + "%",
+  opacity: Math.random() * 0.5,
+  duration: Math.random() * 10 + 10,
+  targetY: Math.random() * 100 + "%"
+}));
+
 const FinalCTASection = () => {
-  // Pre-calculate particles to maintain render purity
-  const particles = useMemo(() => 
-    [...Array(20)].map(() => ({
-      x: Math.random() * 100 + "%",
-      y: Math.random() * 100 + "%",
-      opacity: Math.random() * 0.5,
-      duration: Math.random() * 10 + 10,
-      targetY: Math.random() * 100 + "%"
-    })), []);
+  const particles = useMemo(() => staticParticles, []);
 
   return (
     <section id="contact" className="py-40 relative overflow-hidden">
