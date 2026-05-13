@@ -82,7 +82,7 @@ const RaymarchCloudShader = {
       vec3 col = vec3(0.0);
       float t = 0.0;
       
-      for(int i=0; i<18; i++) {
+      for(int i=0; i<32; i++) {
         vec3 p = ro + t * rd;
         float d = cloudDensity(p, false);
         
@@ -102,7 +102,7 @@ const RaymarchCloudShader = {
           
           if (sum > 0.99) break;
         }
-        t += max(0.15, t * 0.08);
+        t += max(0.1, t * 0.05);
       }
       
       return vec4(col, sum);
@@ -212,7 +212,7 @@ const GlobalCloudBackground = () => {
           powerPreference: "high-performance",
           alpha: true
         }}
-        dpr={[1, 1.2]} // Capped pixel ratio for performance
+        dpr={[1, 2]} // Increased pixel ratio for sharpness on high-DPI screens
       >
         <AtmosphericCore />
       </Canvas>
