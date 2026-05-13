@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { motion, useTransform, useSpring, useMotionValue } from 'framer-motion';
+import { useEffect } from 'react';
+import { motion, useSpring, useMotionValue } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import MagneticButton from './MagneticButton';
 import TextReveal from './TextReveal';
 
 const Hero = () => {
-  const { theme } = useTheme();
+  useTheme();
 
   // Mouse Parallax Values
   const mouseX = useMotionValue(0);
@@ -27,7 +27,7 @@ const Hero = () => {
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
     };
-  }, []);
+  }, [mouseX, mouseY]);
 
   return (
     <section className="relative w-full min-h-[80vh] flex items-center justify-center py-20 overflow-hidden">

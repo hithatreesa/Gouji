@@ -1,4 +1,4 @@
-import React, { useRef, useMemo } from 'react';
+import { useRef, useMemo } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useScroll } from 'framer-motion';
@@ -47,7 +47,7 @@ const RaymarchCloudShader = {
     float fbm(vec3 p) {
       float v = 0.0;
       float a = 0.5;
-      for (int i = 0; i < 4; i++) {
+      for (int i = 0; i < 3; i++) {
         v += a * noise(p);
         p *= 2.1;
         a *= 0.5;
@@ -56,14 +56,21 @@ const RaymarchCloudShader = {
     }
 
     // --- Raymarching Engine ---
-    float cloudDensity(vec3 p) {
+    float cloudDensity(vec3 p, bool fast) {
       // Mouse Parting
       vec3 mouseWorld = vec3(uMouse * 10.0, 0.0);
       float dMouse = length(p.xy - mouseWorld.xy);
       float clearing = smoothstep(0.0, 5.0, dMouse);
 
-      float d = fbm(p * 0.4 + vec3(uTime * 0.1, 0.0, uScroll * 2.0));
-      d = smoothstep(0.4, 0.9, d * clearing);
+      float n;
+      if (fast) {
+          // Faster density check for shadows
+          n = noise(p * 0.4 + vec3(uTime * 0.1, 0.0, uScroll * 2.0));
+      } else {
+          n = fbm(p * 0.4 + vec3(uTime * 0.1, 0.0, uScroll * 2.0));
+      }
+      
+      float d = smoothstep(0.4, 0.9, n * clearing);
       
       // Ground/Sky limits
       d *= smoothstep(-5.0, -2.0, p.y) * smoothstep(5.0, 2.0, p.y);
@@ -75,13 +82,13 @@ const RaymarchCloudShader = {
       vec3 col = vec3(0.0);
       float t = 0.0;
       
-      for(int i=0; i<28; i++) {
+      for(int i=0; i<18; i++) {
         vec3 p = ro + t * rd;
-        float d = cloudDensity(p);
+        float d = cloudDensity(p, false);
         
         if (d > 0.01) {
           // Beer's Law for internal shadows (simplified)
-          float ld = cloudDensity(p + sunDir * 0.4);
+          float ld = cloudDensity(p + sunDir * 0.4, true);
           float shadow = exp(-ld * 1.5);
           
           vec3 light = cloudColor * shadow * 1.5;
@@ -95,7 +102,7 @@ const RaymarchCloudShader = {
           
           if (sum > 0.99) break;
         }
-        t += max(0.12, t * 0.06);
+        t += max(0.15, t * 0.08);
       }
       
       return vec4(col, sum);
@@ -158,17 +165,29 @@ const AtmosphericCore = () => {
     }
   }, [atmosphere.phase]);
 
+  // Track resolution and phase changes to update uniforms only when needed
+  const lastRes = useRef(new THREE.Vector2());
+
   useFrame((state) => {
     if (meshRef.current) {
-      meshRef.current.material.uniforms.uTime.value = state.clock.getElapsedTime();
-      meshRef.current.material.uniforms.uMouse.value.lerp(mouse, 0.05);
-      meshRef.current.material.uniforms.uScroll.value = THREE.MathUtils.lerp(
-        meshRef.current.material.uniforms.uScroll.value,
+      const uniforms = meshRef.current.material.uniforms;
+      uniforms.uTime.value = state.clock.getElapsedTime();
+      uniforms.uMouse.value.lerp(mouse, 0.05);
+      uniforms.uScroll.value = THREE.MathUtils.lerp(
+        uniforms.uScroll.value,
         scrollYProgress.get(),
         0.1
       );
-      meshRef.current.material.uniforms.uPhase.value = phaseValue;
-      meshRef.current.material.uniforms.uResolution.value.set(size.width, size.height);
+      
+      // Only update static-ish uniforms if they changed
+      if (uniforms.uPhase.value !== phaseValue) {
+        uniforms.uPhase.value = phaseValue;
+      }
+      
+      if (lastRes.current.x !== size.width || lastRes.current.y !== size.height) {
+        uniforms.uResolution.value.set(size.width, size.height);
+        lastRes.current.set(size.width, size.height);
+      }
     }
   });
 
@@ -193,7 +212,7 @@ const GlobalCloudBackground = () => {
           powerPreference: "high-performance",
           alpha: true
         }}
-        dpr={[1, 1.5]} // Cap pixel ratio for performance
+        dpr={[1, 1.2]} // Capped pixel ratio for performance
       >
         <AtmosphericCore />
       </Canvas>

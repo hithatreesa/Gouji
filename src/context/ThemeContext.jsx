@@ -31,13 +31,14 @@ export const AtmosphereProvider = ({ children }) => {
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAtmosphere = () => {
   const context = useContext(AtmosphereContext);
   if (!context) throw new Error('useAtmosphere must be used within an AtmosphereProvider');
   return context;
 };
 
-// Keep compatibility with old useTheme imports to avoid immediate breaking
+// eslint-disable-next-line react-refresh/only-export-components
 export const useTheme = () => {
   const { atmosphere } = useAtmosphere();
   return { theme: (atmosphere.phase === 'day' || atmosphere.phase === 'dawn') ? 'light' : 'dark', atmosphere };

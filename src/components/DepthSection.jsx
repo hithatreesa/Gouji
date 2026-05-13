@@ -1,7 +1,7 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 
-const DepthSection = ({ children, index = 0 }) => {
+const DepthSection = ({ children }) => {
   const ref = useRef(null);
   
   // Track this section's progress through the viewport
@@ -21,28 +21,24 @@ const DepthSection = ({ children, index = 0 }) => {
   const z = useTransform(
     smoothProgress, 
     [0, 0.4, 0.6, 1], 
-    [-4000, 0, 0, 4000]
+    [-2000, 0, 0, 2000]
   );
   
   // Add a slight tilt/rotation as it flies past for more cinematic feel
-  const rotateX = useTransform(smoothProgress, [0, 0.4, 0.6, 1], [25, 0, 0, -25]);
+  const rotateX = useTransform(smoothProgress, [0, 0.4, 0.6, 1], [15, 0, 0, -15]);
   
   // Fade in from the deep fog (Fully visible for the central 20% of the scroll)
-  const opacity = useTransform(smoothProgress, [0, 0.2, 0.4, 0.6, 0.8, 1], [0, 0, 1, 1, 0, 0]);
+  const opacity = useTransform(smoothProgress, [0, 0.25, 0.4, 0.6, 0.75, 1], [0, 0, 1, 1, 0, 0]);
   
-  // Extreme blur for depth of field (sharp for the majority of the view)
-  const blurValue = useTransform(smoothProgress, [0, 0.4, 0.6, 1], [20, 0, 0, 25]);
-  const filter = useTransform(blurValue, (v) => `blur(${v}px)`);
-
   return (
-    <div ref={ref} className="relative w-full" style={{ perspective: '3000px' }}>
+    <div ref={ref} className="relative w-full" style={{ perspective: '2000px', overflow: 'visible' }}>
       <motion.div
         style={{
           z,
           rotateX,
           opacity,
-          filter,
-          transformStyle: "preserve-3d"
+          transformStyle: "preserve-3d",
+          willChange: "transform, opacity"
         }}
         className="w-full origin-center"
       >

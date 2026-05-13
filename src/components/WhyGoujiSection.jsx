@@ -1,4 +1,3 @@
-import React from 'react';
 import { motion } from 'framer-motion';
 import { ShieldCheck, Zap, Layers, Server, Wrench } from 'lucide-react';
 

@@ -1,8 +1,8 @@
-import React from 'react';
+import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Shield, Cpu, Code, Zap,
+  Zap,
   Globe, Brain, BarChart, Settings, Database,
   Mail, ArrowRight, Calendar,
 } from 'lucide-react';
@@ -116,7 +116,7 @@ const ServicesContent = () => (
 
 /* ─── Contact Section Content ───────────────────────────── */
 const ContactContent = () => {
-  const [isSubmitted, setIsSubmitted] = React.useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();

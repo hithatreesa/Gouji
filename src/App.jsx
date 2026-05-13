@@ -1,4 +1,4 @@
-import React from 'react';
+// import React removed for linting
 import GlobalCloudBackground from './components/GlobalCloudBackground';
 import AtmosphericMist from './components/AtmosphericMist';
 import Navbar from './components/Navbar';

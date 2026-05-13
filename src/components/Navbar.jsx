@@ -1,11 +1,11 @@
-import React, { useState, useEffect, Suspense, useRef } from 'react';
+import { useState, useEffect, Suspense, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { cn } from '../utils/cn';
 import MagneticButton from './MagneticButton';
 
-const SystemCore = ({ phase }) => {
+const SystemCore = () => {
   const meshRef = useRef();
   const wireRef = useRef();
   const colors = { day: '#0066FF' };

@@ -1,4 +1,4 @@
-import React from 'react';
+// import React removed for linting
 import { motion } from 'framer-motion';
 
 const TextReveal = ({ text, className = "", delay = 0 }) => {
