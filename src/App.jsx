@@ -1,6 +1,4 @@
 // import React removed for linting
-import GlobalCloudBackground from './components/GlobalCloudBackground';
-import AtmosphericMist from './components/AtmosphericMist';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import SmoothScroll from './components/SmoothScroll';
@@ -13,8 +11,6 @@ function App() {
       <HelmetProvider>
         <SmoothScroll>
           <div className="relative min-h-screen bg-background text-text-primary selection:bg-primary selection:text-white">
-            <GlobalCloudBackground />
-            <AtmosphericMist />
             <Navbar />
             <main>
               <Home />
